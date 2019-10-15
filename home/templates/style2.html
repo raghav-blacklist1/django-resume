@@ -1,0 +1,145 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ obj.fname }}'s Resume</title>
+    <meta name="description" content=""/>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{% static 'temp2/css/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'temp2/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'temp2/styles/main.css' %}" rel="stylesheet">
+  </head>
+  <body id="top">
+    <header>
+    </header>
+    <div class="page-content">
+      <div>
+
+<div class="section" id="about">
+  <div class="container">
+    <div class="card" data-aos="fade-up" data-aos-offset="10">
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <div class="card-body">
+            <div class="h2 mt-0 title">{{ obj.fname }} {{ obj.lname }}</div>
+            
+            <div class="row mt-3">
+              <div class="col-sm-4"><strong class="text-uppercase">Phone:</strong></div>
+              <div class="col-sm-8">{{ obj.mob }}</div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-sm-4"><strong class="text-uppercase">Email:</strong></div>
+              <div class="col-sm-8"><a href="mailto:{{ obj.email }}" >{{ obj.email }}</a></div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="card-body">
+            <br><br>
+            <div class="row">
+              <div class="col-sm-4"><strong class="text-uppercase">Linked in:</strong></div>
+              <div class="col-sm-8"><a href="https://in.linkedin.com/in/{{ obj.link_in }}">{{ obj.link_in }}</a></div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-sm-4"><strong class="text-uppercase">Github:</strong></div>
+              <div class="col-sm-8"><a href="https://www.github.com/{{ obj.github }}">{{ obj.github }}</a></div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-sm-4"><strong class="text-uppercase">Language:</strong></div>
+              <div class="col-sm-8">{{ obj.lang }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="container cc-education">
+    <div class="h4 text-center mb-4 title">Education</div>
+    {% for obj in edu %}
+    <div class="card">
+      <div class="row">
+        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
+          <div class="card-body cc-education-header">
+            <p>{{ obj.s_year }} - {{obj.e_year}}</p>
+          </div>
+        </div>
+        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+          <div class="card-body">
+            <div class="h5">{{ obj.degree }}</div>
+            <p class="category">{{ obj.insti_name }}</p>
+            <p>{{ obj.score }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</div>
+
+<div class="section" id="skill">
+  <div class="container">
+    <div class="h4 text-center mb-4 title">Professional Skills</div>
+    <div class="card" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+      <div class="card-body">
+          {% for obj in ski %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="progress-container progress-primary"> <span style="height: 10px; width: 10px; background-color: #378C3F; border-radius: 50%; display: inline-block;"></span><span class="progress-badge" style="padding-left: 15px;">{{ obj.skill }}</span>
+            </div>
+          </div>
+        </div>
+         {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="experience">
+  <div class="container cc-experience">
+    <div class="h4 text-center mb-4 title">Work Experience</div>
+    {% for obj in exp %}
+    <div class="card">
+      <div class="row">
+        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
+          <div class="card-body cc-experience-header">
+            <p>{{ obj.s_year }} - {{obj.e_year}}</p>
+            <div class="h5">{{ obj.company }}</div>
+          </div>
+        </div>
+        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+          <div class="card-body">
+            <div class="h5">{{ obj.title }}</div>
+            <p>{{ obj.work }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+      <div class="h4 title text-center">{{ obj.fname }} {{ obj.lname }}</div>
+      <div class="text-center text-muted">
+        <p>&copy; Resume+. All rights reserved.<br>Design - <a class="credit">Creative CV</a></p>
+      </div>
+    </footer>
+    <script src="{% static 'temp2/js/core/jquery.3.2.1.min.js' %}"></script>
+    <script src="{% static 'temp2/js/core/popper.min.js' %}"></script>
+    <script src="{% static 'temp2/js/core/bootstrap.min.js' %}"></script>
+    <script src="{% static 'temp2/js/now-ui-kit.js' %}"></script>
+    <script src="{% static 'temp2/js/aos.js' %}"></script>
+    <script src="{% static 'temp2/scripts/main.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+{% load staticfiles %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+
+	<title>{{ obj.fname }}'s Resume</title>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+
+	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" media="all" /> 
+	<link rel="stylesheet" type="text/css" href="{% static 'temp3/resume.css' %}" media="all" />
+
+</head>
+<body>
+
+<div id="doc2" class="yui-t7">
+	<div id="inner">
+	
+		<div id="hd">
+			<div class="yui-gc">
+				<div class="yui-u first">
+					<h1>{{ obj.fname }} {{ obj.lname }}</h1>
+				</div>
+
+				<div class="yui-u">
+					<div class="contact-info">
+						<h3><a href="https://github.com/{{ obj.github }}">{{ obj.github }}</a></h3>
+						<h3><a href="https://in.linkedin.com/in/{{ obj.link_in }}">{{ obj.link_in }}</a></h3>
+						<h3><a href="mailto:{{ obj.email }}">{{ obj.email }}</a></h3>
+						<h3>{{ obj.mob }}</h3>
+					</div><!--// .contact-info -->
+				</div>
+			</div><!--// .yui-gc -->
+		</div><!--// hd -->
+
+		<div id="bd">
+			<div id="yui-main">
+				<div class="yui-b">
+
+					<div class="yui-gf">
+						<div class="yui-u first">
+							<h2>Skills</h2>
+						</div>
+						<div class="yui-u">
+
+								{% for obj in ski %}
+								<div class="talent">
+									<h2>{{ obj.skill }}</h2>
+								</div>
+								{% endfor %}
+						</div>
+					</div><!--// .yui-gf -->
+
+					<div class="yui-gf">
+	
+						<div class="yui-u first">
+							<h2>Experience</h2>
+						</div><!--// .yui-u -->
+
+						<div class="yui-u">
+
+							 {% for obj in exp %}
+							
+							<div class="job">
+								<h2>{{ obj.company }}</h2>
+								<h3>{{ obj.title }}</h3>
+								<h4>{{ obj.s_year }}-{{obj.e_year}}</h4>
+								<p>{{ obj.work }} </p>
+							</div>
+		
+							{% endfor %}
+
+						</div><!--// .yui-u -->
+					</div><!--// .yui-gf -->
+
+
+					<div class="yui-gf last">
+						<div class="yui-u first">
+							<h2>Education</h2>
+						</div>
+						{% for obj in edu %}
+						<div class="yui-u">
+							<h2>{{ obj.insti_name }} ( {{ obj.s_year }} - {{obj.e_year}} )</h2>
+							<h3>{{ obj.degree }} &mdash; <strong>{{ obj.score }}</strong> </h3>
+							<br><br>
+						</div>
+						{% endfor %}
+					</div><!--// .yui-gf -->
+
+
+				</div><!--// .yui-b -->
+			</div><!--// yui-main -->
+		</div><!--// bd -->
+
+	</div><!-- // inner -->
+
+
+</div><!--// doc -->
+
+
+</body>
+</html>
+

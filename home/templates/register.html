@@ -1,0 +1,330 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Sign up | Resume+</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/icon/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/themify-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/metisMenu.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/slicknav.min.css' %}">
+    <!-- amchart css -->
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <!-- others css -->
+    <link rel="stylesheet" href="{% static 'assets/css/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/default-css.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- modernizr css -->
+    <script src="{% static 'assets/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+</head>
+
+<body>
+
+    <style>
+
+    .button1 {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.button1:hover {
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.cancelbtn1 {
+
+    width: auto;
+    padding: 10px 18px;
+    background-color: #4CAF50;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+img.avatar {
+    width: 40%;
+    border-radius: 50%;
+}
+
+.container1 {
+    padding: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 35%; /* Could be more or less, depending on screen size */
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* The Close Button (x) */
+.close1 {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.close1:hover,
+.close1:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+    
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+
+
+@media screen and (max-width: 900px) {
+
+  .modal-content {
+
+    width: 60%;
+
+  }
+}
+
+@media screen and (max-width: 600px) {
+
+  .modal-content {
+
+    width: 90%;
+
+  }
+}
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+    .modal-content {
+
+    width: 100%;
+
+  }
+}
+
+h3 {
+  color: #000;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: 2;
+}
+
+
+h4 {
+  color: #000;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  line-height: 2;
+}
+
+</style>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <!-- preloader area end -->
+    <!-- login area start -->
+
+    <div id="id03" class="modal">
+
+  <!-- Modal Content -->
+        <div class="modal-content animate">
+
+            <div class="container1">
+                <h4>Error!</h4>
+            </div>
+
+        {% for message in messages %}
+
+             <div class="container1" style="background-color:#f1f1f1">
+                <h3> {{ message }}</h3>
+      
+            </div>
+
+        {% endfor %}
+        </div>
+    </div>
+
+    <div class="login-area">
+        <div class="container">
+            <div class="login-box ptb--100">
+                <form action="/validate" method="POST">
+                    {% csrf_token %}
+                    <div class="login-form-head">
+                        <h4>Sign up</h4>
+                        <p>Hello there, Sign up and Join with Us</p>
+                    </div>
+                    <div class="login-form-body">
+                        <div class="form-gp">
+                            <label for="fname">First Name</label>
+                            <input type="text" name="fname" required>
+                            <i class="ti-user"></i>
+                        </div>
+                        <div class="form-gp">
+                            <label for="lname">Last Name</label>
+                            <input type="text" name="lname" required>
+                            <i class="ti-user"></i>
+                        </div>
+                         <div class="form-gp">
+                            <label for="username">Username</label>
+                            <input type="text" name="username">
+                            <i class="ti-user"></i>
+                        </div>
+                        <div class="form-gp">
+                            <label for="Email">Email address</label>
+                            <input type="email" name="Email" required>
+                            <i class="ti-email"></i>
+                        </div>
+                        <div class="form-gp">
+                            <label for="password1">Password</label>
+                            <input type="password" name="password1" required>
+                            <i class="ti-lock"></i>
+                        </div>
+                        <div class="form-gp">
+                            <label for="password2">Confirm Password</label>
+                            <input type="password" name="password2" required>
+                            <i class="ti-lock"></i>
+                        </div>
+                        <div class="form-gp">
+                            <label for="mobile">Mobile</label>
+                            <input type="number" name="mobile" required>
+                            <i class="fa fa-mobile"></i>
+                        </div>
+                        <div class="form-gp">
+                            <label for="linked">Linked in ID</label>
+                            <input type="text" name="linked" required>
+                            <i class="fa fa-linkedin"></i>
+                        </div>
+                        <div class="form-gp">
+                            <label for="git">Github ID</label>
+                            <input type="text" name="git" required>
+                            <i class="fa fa-github"></i>
+                        </div>
+                        <div class="form-gp">
+                            <label for="lang">Languages</label>
+                            <input type="text" name="lang" required>
+                            <i class="fa fa-language"></i>
+                        </div>
+                        <div class="submit-btn-area">
+                            <button id="form_submit" type="submit">Submit <i class="ti-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+   {% if messages %}
+    <script type="text/javascript">
+      document.getElementById('id03').style.display='block';
+    </script>
+    {% endif %}
+
+    <script>
+// Get the modal
+        var modal2 = document.getElementById('id03');
+
+// When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+    
+            if (event.target == modal2 ) {
+                modal2.style.display = "none";
+            }
+        }
+    </script>
+    <!-- login area end -->
+
+    <!-- jquery latest version -->
+   <script src="{% static 'assets/js/vendor/jquery-2.2.4.min.js' %}"></script>
+    <!-- bootstrap 4 js -->
+    <script src="{% static 'assets/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/js/metisMenu.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.slicknav.min.js' %}"></script>
+    <!-- others plugins -->
+    <script src="{% static 'assets/js/plugins.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.js' %}"></script>
+</body>
+
+</html>
