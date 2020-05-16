@@ -6,10 +6,12 @@ from .forms import *
 import datetime
 from django.utils.timezone import utc
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
 from home.forms import *
 from django.contrib import messages
+import pdfkit
 import pymysql														#pymysql is used fo sql queries in this python scrript
 
 def HomePage(request):
@@ -144,10 +146,6 @@ def test(request,string):
 def temp1(request,string):
 
 	context={}
-	if not request.user.is_authenticated:										#to check if user is either auhenticated or parameter passed in url a sample
-		if string != "sample":
-			return redirect('/403')
-
 	try:
 		usr=Profile.objects.get(username=string)
 		context['obj']=Profile.objects.get(username=string)				#to get main info
@@ -159,12 +157,20 @@ def temp1(request,string):
 
 	return render(request,'style1.html',context)
 
+def dtemp1(request,string):
+
+	my_url = request.get_host() + '/temp1/' + string
+	pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
+	print(my_url)
+	pdf = pdfkit.from_url(my_url, False)
+	response = HttpResponse(pdf,content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="{0}_1.pdf"'.format(string)
+
+	return response
+
 def temp2(request,string):
 
 	context={}
-	if not request.user.is_authenticated:
-		if string != "sample":
-			return redirect('/403')
 
 	try:
 		usr=Profile.objects.get(username=string)
@@ -177,12 +183,20 @@ def temp2(request,string):
 
 	return render(request,'style2.html',context)
 
+def dtemp2(request,string):
+
+	my_url = request.get_host() + '/temp2/' + string
+	pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
+	print(my_url)
+	pdf = pdfkit.from_url(my_url, False)
+	response = HttpResponse(pdf,content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="{0}_2.pdf"'.format(string)
+
+	return response
+
 def temp3(request,string):
 
 	context={}
-	if not request.user.is_authenticated:
-		if string != "sample":
-			return redirect('/403')
 
 	try:
 		usr=Profile.objects.get(username=string)
@@ -195,12 +209,20 @@ def temp3(request,string):
 
 	return render(request,'style3.html',context)
 
+def dtemp3(request,string):
+
+	my_url = request.get_host() + '/temp3/' + string
+	pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
+	print(my_url)
+	pdf = pdfkit.from_url(my_url, False)
+	response = HttpResponse(pdf,content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="{0}_3.pdf"'.format(string)
+
+	return response
+
 def temp4(request,string):
 
 	context={}
-	if not request.user.is_authenticated:										#to check if user is either auhenticated or parameter passed in url a sample
-		if string != "sample":
-			return redirect('/403')
 
 	try:
 		usr=Profile.objects.get(username=string)
@@ -212,6 +234,17 @@ def temp4(request,string):
 	context['exp']=sorted(usr.experience_set.all(),key=getkey1,reverse=True)			#to get education ,skill and experience info
 
 	return render(request,'style4.html',context)
+
+def dtemp4(request,string):
+
+	my_url = request.get_host() + '/temp4/' + string
+	pdfkit.configuration(wkhtmltopdf='/usr/bin/wkhtmltopdf')
+	print(my_url)
+	pdf = pdfkit.from_url(my_url, False)
+	response = HttpResponse(pdf,content_type='application/pdf')
+	response['Content-Disposition'] = 'attachment; filename="{0}_4.pdf"'.format(string)
+
+	return response
 
 """									// does the same thing as above, but with raw SQL queries
 

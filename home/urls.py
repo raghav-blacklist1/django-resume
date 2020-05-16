@@ -21,9 +21,13 @@ urlpatterns = [
 	url(r'^people', views.people, name='people'),
 	url(r'^test/(?P<string>[\w\-]+)/$', views.test, name='test'),
 	url(r'^temp1/(?P<string>[\w\-]+)/$', views.temp1, name='temp1'),
+	url(r'^dtemp1/(?P<string>[\w\-]+)/$', views.dtemp1, name='dtemp1'),
 	url(r'^temp2/(?P<string>[\w\-]+)/$', views.temp2, name='temp2'),      #view for the template is open with parameter as a string that is a username of user...captured by putting in brackets
+	url(r'^dtemp2/(?P<string>[\w\-]+)/$', views.dtemp2, name='dtemp2'),
 	url(r'^temp3/(?P<string>[\w\-]+)/$', views.temp3, name='temp3'),
+	url(r'^dtemp3/(?P<string>[\w\-]+)/$', views.dtemp3, name='dtemp3'),
 	url(r'^temp4/(?P<string>[\w\-]+)/$', views.temp4, name='temp4'),
+	url(r'^dtemp4/(?P<string>[\w\-]+)/$', views.dtemp4, name='dtemp4'),
 	url(r'^feeds/', LatestReg()),
   
 ]
