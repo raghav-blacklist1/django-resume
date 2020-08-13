@@ -205,24 +205,19 @@ def edufielddelete(request):
 def edufieldsubmit(request):
 
 	context={}
-	print("here1")
 	if request.method == 'POST':
-		print("here2")
 		edu_id = request.POST['Id']
 		edu_object = education.objects.get(pk=edu_id)
 
 		if request.user.is_authenticated:
-			print("here3")
 			username = request.user.username
 			user = Profile.objects.get(username=username)
 
 			if edu_object.user == user:
 
-				print("here4")
 				MyForm=EduForm(request.POST)
 
 				if MyForm.is_valid():
-					print("here5")
 					inst = MyForm.cleaned_data['instname']
 					sy=MyForm.cleaned_data['syear']
 					ey=MyForm.cleaned_data['eyear']
@@ -235,6 +230,150 @@ def edufieldsubmit(request):
 		pass
 
 	return redirect("/editprofile/education")
+
+def editexpfields(request):
+
+	context={'is_authenticated':False}
+	if request.user.is_authenticated:
+
+		username = request.user.username
+		user = Profile.objects.get(username=username)
+		expfields = sorted(user.experience_set.all(),key=getkey1,reverse=True)
+		context = {
+	        'is_authenticated': True,
+	        'username': request.user.username,
+	        'firstname': request.user.first_name,
+	        'lastname': request.user.last_name,
+	        'expfields': expfields,
+	        'onfields': True,
+	        'onexpfield': True
+    	}
+		return render(request, 'fields_exp.html', context)
+
+	return redirect('/403')
+
+@require_POST
+def expfielddelete(request):
+
+	if request.method == 'POST':
+		
+		edu_id = request.POST['id']
+		edu_object = education.objects.get(pk=edu_id)
+
+		if request.user.is_authenticated:
+
+			username = request.user.username
+			user = Profile.objects.get(username=username)
+
+			if edu_object.user == user:
+
+				edu_object.delete()
+				messages.info(request,"Field deleted Successfully!")
+				return redirect("/editprofile/education")
+
+
+	return redirect('/403')
+
+@require_POST
+def expfieldsubmit(request):
+
+	context={}
+	if request.method == 'POST':
+		exp_id = request.POST['Id']
+		exp_object = experience.objects.get(pk=exp_id)
+
+		if request.user.is_authenticated:
+			username = request.user.username
+			user = Profile.objects.get(username=username)
+
+			if exp_object.user == user:
+
+				MyForm=ExpForm(request.POST)
+
+				if MyForm.is_valid():
+
+					comp = MyForm.cleaned_data['comp']
+					title=MyForm.cleaned_data['title']
+					sy=MyForm.cleaned_data['syear']
+					ey=MyForm.cleaned_data['eyear']
+					wrk=MyForm.cleaned_data['work']
+					experience.objects.filter(pk=exp_id).update(company=comp,title=title,s_year=sy,e_year=ey,work=wrk)
+					messages.info(request,"Fields updated Successfully!!")		
+
+	else:
+		pass
+
+	return redirect("/editprofile/experience")
+
+def editskillfields(request):
+
+	context={'is_authenticated':False}
+	if request.user.is_authenticated:
+
+		username = request.user.username
+		user = Profile.objects.get(username=username)
+		skillfields = user.skills_set.all()
+		context = {
+	        'is_authenticated': True,
+	        'username': request.user.username,
+	        'firstname': request.user.first_name,
+	        'lastname': request.user.last_name,
+	        'skillfields': skillfields,
+	        'onfields': True,
+	        'onskillfield': True
+    	}
+		return render(request, 'fields_skill.html', context)
+
+	return redirect('/403')
+
+@require_POST
+def skillfielddelete(request):
+
+	if request.method == 'POST':
+		
+		skill_id = request.POST['id']
+		skill_object = skills.objects.get(pk=edu_id)
+
+		if request.user.is_authenticated:
+
+			username = request.user.username
+			user = Profile.objects.get(username=username)
+
+			if skill_object.user == user:
+
+				skill_object.delete()
+				messages.info(request,"Field deleted Successfully!")
+				return redirect("/editprofile/skills")
+
+
+	return redirect('/403')
+
+@require_POST
+def skillfieldsubmit(request):
+
+	context={}
+	if request.method == 'POST':
+		skill_id = request.POST['Id']
+		skill_object = skills.objects.get(pk=skill_id)
+
+		if request.user.is_authenticated:
+			username = request.user.username
+			user = Profile.objects.get(username=username)
+
+			if skill_object.user == user:
+
+				MyForm=SkillForm(request.POST)
+
+				if MyForm.is_valid():
+
+					skill = MyForm.cleaned_data['skill']
+					skills.objects.filter(pk=skill_id).update(skill=skill)
+					messages.info(request,"Field updated Successfully!!")		
+
+	else:
+		pass
+
+	return redirect("/editprofile/skills")
 
 def denied_acc(request):
 
@@ -481,7 +620,7 @@ def add_exp(request):
 	else:
 		MyRegForm=ExpForm()
 
-	return redirect('/dashboard')
+	return redirect('/editprofile/experience')
 
 def add_skill(request):
 

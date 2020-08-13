@@ -36,15 +36,6 @@ class EduForm(forms.Form):
 	deg = forms.CharField(max_length = 100)
 	score = forms.CharField(max_length = 100)
 
-class UpdateEduForm(forms.Form):
-
-   Id = forms.IntegerField()
-   instname = forms.CharField(max_length = 100)
-   syear = forms.IntegerField()
-   eyear = forms.IntegerField()
-   deg = forms.CharField(max_length = 100)
-   score = forms.CharField(max_length = 100)
-
 class ExpForm(forms.Form):
 
 	comp = forms.CharField(max_length = 100)

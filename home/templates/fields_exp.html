@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Edit Fields - Experience | Resume+{% endblock title %}
+
+{% block breadcrumb %}
+<h4 class="page-title pull-left">Experience</h4>
+<ul class="breadcrumbs pull-left">
+    <li><a href="/">Home</a></li>
+    <li><a href="/dashboard">Fields</a></li>
+    <li><span>Experience</span></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+
+<div class="col-12 mt-5">
+
+    <div class="alert-items" id="id03">
+    {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}                        
+    </div>
+</div>
+
+<div class="col-12">
+    <div class="card mt-5">
+        <div class="card-body">
+            <div id="newfieldbutton" class="form-row">
+                <div class="col-md-1 mb-3">
+                    <button id="newbutton" class="btn btn-primary mb-3">Create New Field</button>
+                </div>
+            </div>
+
+            <div id="newfieldcontainer">
+                <form action="{% url 'expfieldcreate' %}" method="POST" id="new_form">
+                    {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom01">Company Name</label>
+                                <input type="text" class="form-control" placeholder="Company Name" name="comp" value="" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom01">Job Title</label>
+                                <input type="text" class="form-control" placeholder="Job Title" name="title" value="" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="validationCustom01">Job Description</label>
+                                <input type="text" class="form-control" placeholder="Describe your task briefly." name="work" value="" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom04">Start Year</label>
+                                <input type="number" id = "new_syear" class="form-control" placeholder="Start Year" name="syear" value="" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationCustom05">End Year</label>
+                                <input type="number" id = "new_eyear" class="form-control" placeholder="End Year" name="eyear" value="" required="">
+                            </div>
+                            <div class="col-12 mt-1" id="alert_new">
+                                <div class="alert-items">
+                                    <div class="alert alert-danger" role="alert" id="alert_new_text">
+                                    </div>                      
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-1 mb-3">
+                                <button type="button" onclick="validateFormNew();" id="createbutton" class="btn btn-success mb-3">Submit</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for expfield in expfields %}
+<div class="col-12">
+    <div class="card mt-5">
+        <div class="card-body">
+            <form action="/editprofile/education/submit" method="POST" id="form_{{ expfield.id_cnt }}">
+                {% csrf_token %}
+                <fieldset id="editable_{{ expfield.id_cnt}}">
+                    <input type="hidden" id="custId" name="Id" value="{{ expfield.id_cnt }}">
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom01">Company Name</label>
+                            <input type="text" class="form-control" placeholder="Company Name" name = "comp" value="{{ expfield.company }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom03">Job Title</label>
+                            <input type="text" class="form-control" placeholder="Job Title" name = "title" value="{{ expfield.title }}"required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom01">Job Description</label>
+                            <input type="text" class="form-control" placeholder="Describe your task briefly." name = "work" value="{{ expfield.work }}" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="validationCustom04">Start Year</label>
+                            <input type="number" id="syear_{{ expfield.id_cnt}}" class="form-control" placeholder="Start Year" name="syear" value="{{ expfield.s_year }}" required>
+                        </div>
+                        <div class="col-md- mb-3">
+                            <label for="validationCustom05">End Year</label>
+                            <input type="number" id="eyear_{{ expfield.id_cnt}}" class="form-control" placeholder="End Year" name="eyear" value="{{ expfield.e_year }}" required="">
+                        </div>
+                        <div class="col-12 mt-1" id="alert_{{ expfield.id_cnt }}">
+                            <div class="alert-items">
+                                <div class="alert alert-danger" role="alert" id="alert_text_{{ expfield.id_cnt }}">
+                                </div>                      
+                            </div>
+                        </div>
+                    </div>
+                    </fieldset>
+                    <div class="form-row">
+                        <div class="col-md-1 mb-3">
+                            <button type="button" id="editbutton_{{ expfield.id_cnt }}" class="btn btn-primary mb-3">Edit</button>
+                            <button type="button" id="savebutton_{{ expfield.id_cnt }}" onclick="validateForm({{ expfield.id_cnt }});" class="btn btn-success mb-3">Save</button>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <button type="button" id="deletebutton_{{ expfield.id_cnt }}" class="btn btn-secondary mb-3">Delete</button>
+                            <button type="button" id="cancelbutton_{{ expfield.id_cnt }}" class="btn btn-danger mb-3">Cancel</button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<script>
+
+window.setTimeout(function() {
+    document.getElementById('id03').style.display = "none";
+}, 10000);
+
+document.getElementById("newfieldcontainer").style.display = 'none';
+document.getElementById("alert_new").style.display = 'none';
+document.getElementById("newbutton").onclick = function(){
+
+    document.getElementById("newfieldcontainer").style.display = 'block'
+    document.getElementById("newfieldbutton").style.display = 'none'
+}
+
+{% for expfield in expfields %}
+
+document.getElementById('editable_{{ expfield.id_cnt }}').disabled = true;
+document.getElementById('savebutton_{{ expfield.id_cnt }}').style.display = "none";
+document.getElementById('cancelbutton_{{ expfield.id_cnt }}').style.display = "none";
+document.getElementById('alert_{{ expfield.id_cnt }}').style.display = "none";
+
+document.getElementById("editbutton_{{ expfield.id_cnt }}").onclick = function(){
+
+    document.getElementById('editable_{{ expfield.id_cnt }}').disabled = false;
+    document.getElementById('editbutton_{{ expfield.id_cnt }}').style.display = "none";
+    document.getElementById('deletebutton_{{ expfield.id_cnt }}').style.display = "none";
+    document.getElementById('savebutton_{{ expfield.id_cnt }}').style.display = "block";
+    document.getElementById('cancelbutton_{{ expfield.id_cnt }}').style.display = "block";
+}
+
+document.getElementById("cancelbutton_{{ expfield.id_cnt }}").onclick = function(){
+
+    document.getElementById('editable_{{ expfield.id_cnt }}').disabled = true;
+    document.getElementById('editbutton_{{ expfield.id_cnt }}').style.display = "block";
+    document.getElementById('deletebutton_{{ expfield.id_cnt }}').style.display = "block";
+    document.getElementById('savebutton_{{ expfield.id_cnt }}').style.display = "none";
+    document.getElementById('cancelbutton_{{ expfield.id_cnt }}').style.display = "none";
+}
+
+document.getElementById("deletebutton_{{ expfield.id_cnt }}").onclick = function(){
+
+    $.ajax({
+    type: "POST",
+    url: "{% url 'expfielddelete' %}",
+    data: { 'id': "{{ expfield.id_cnt}}",
+        'csrfmiddlewaretoken': "{{ csrf_token }}"
+    },
+    success: function(data) {
+      location.reload();
+    }
+  });
+}
+
+{% endfor %}
+
+function validateFormNew(){
+
+    url = "{% url 'expfieldcreate' %}";
+    l = document.getElementById("new_syear").value;
+    r = document.getElementById("new_eyear").value;
+
+    if(r>=l){
+
+        document.getElementById("new_form").submit();
+    }
+    else{
+
+        document.getElementById("alert_new_text").innerHTML = "End Year can't be lesser than Start Year.";
+        document.getElementById("alert_new").style.display = "block";
+        window.setTimeout(function() {
+            document.getElementById("alert_new").style.display = "none";
+        }, 5000);
+    }
+    
+}
+
+function validateForm(form_id){
+
+    url = "{% url 'expfieldcreate' %}";
+    l = document.getElementById(("syear_" + form_id)).value;
+    r = document.getElementById(("eyear_" + form_id)).value;
+
+    if(r>=l){
+
+        document.getElementById(("form_" + form_id)).submit();
+    }
+    else{
+
+        document.getElementById(("alert_text_" + form_id)).innerHTML = "End Year can't be lesser than Start Year.";
+        document.getElementById(("alert_" + form_id)).style.display = "block";
+        window.setTimeout(function() {
+            document.getElementById(("alert_" + form_id)).style.display = "none";
+        }, 5000);
+    }
+}
+</script>
+
+{% endblock %}

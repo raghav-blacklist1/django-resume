@@ -53,9 +53,8 @@
                                 <ul class="collapse">
                                     <li {% if onmainfield %} class="active" {% endif %} ><a href="{% url 'editmainfields' %}">Main</a></li>
                                     <li {% if onedufield %} class="active" {% endif %} ><a href="{% url 'editedufields' %}">Education</a></li>
-                                    <li><a href="index2.html">Experience</a></li>
-                                    <li><a href="index3.html">Skills</a></li>
-                                    <li><a href="index3.html">Achievements</a></li>
+                                    <li {% if onexpfield %} class="active" {% endif %} ><a href="{% url 'editexpfields' %}">Experience</a></li>
+                                    <li {% if onskillfield %} class="active" {% endif %} ><a href="{% url 'editskillfields' %}">Skills</a></li>
                                 </ul>
                             </li>
                         </ul>
