@@ -258,7 +258,7 @@ def expfielddelete(request):
 	if request.method == 'POST':
 		
 		edu_id = request.POST['id']
-		edu_object = education.objects.get(pk=edu_id)
+		edu_object = experience.objects.get(pk=edu_id)
 
 		if request.user.is_authenticated:
 
@@ -332,7 +332,7 @@ def skillfielddelete(request):
 	if request.method == 'POST':
 		
 		skill_id = request.POST['id']
-		skill_object = skills.objects.get(pk=edu_id)
+		skill_object = skills.objects.get(pk=skill_id)
 
 		if request.user.is_authenticated:
 
