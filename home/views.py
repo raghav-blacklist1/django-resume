@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
 from home.forms import *
 from django.contrib import messages
+from django.views.decorators.http import require_POST
 import pdfkit
 
 def HomePage(request):
@@ -107,6 +108,134 @@ def people(request):
 
 	return redirect('/403')
 
+def editmainfields(request):
+
+	context={'is_authenticated':False}
+	if request.user.is_authenticated:
+
+		username = request.user.username
+		user = Profile.objects.get(username=username)
+		context = {
+	        'is_authenticated': True,
+	        'username': request.user.username,
+	        'firstname': request.user.first_name,
+	        'lastname': request.user.last_name,
+	        'user': user,
+	        'onfields': True,
+	        'onmainfield': True
+    	}
+		return render(request, 'fields_main.html', context)
+
+	return redirect('/403')
+
+@require_POST
+def submitmainfields(request):
+
+	context={}
+	print("here0")
+
+	if request.method == 'POST':
+		print("here1")
+		MyForm=UpdateProfileForm(request.POST)
+
+		if MyForm.is_valid():
+			print("here2")
+			username = request.user.username
+
+			fn=MyForm.cleaned_data['fname']
+			ln=MyForm.cleaned_data['lname']
+			print(ln)
+			email=MyForm.cleaned_data['Email']
+			mob=MyForm.cleaned_data['mobile']
+			link=MyForm.cleaned_data['linked']
+			git=MyForm.cleaned_data['git']
+			lang=MyForm.cleaned_data['lang']
+			Profile.objects.filter(pk=username).update(fname = fn, lname = ln, email = email, mob = mob, link_in = link, github = git, lang = lang)
+			messages.info(request,"Fields updated Successfully!!")		
+
+	else:
+		print("here")
+
+	return redirect("/editprofile/main")
+
+def editedufields(request):
+
+	context={'is_authenticated':False}
+	if request.user.is_authenticated:
+
+		username = request.user.username
+		user = Profile.objects.get(username=username)
+		edufields = sorted(user.education_set.all(),key=getkey1,reverse=True)
+		context = {
+	        'is_authenticated': True,
+	        'username': request.user.username,
+	        'firstname': request.user.first_name,
+	        'lastname': request.user.last_name,
+	        'edufields': edufields,
+	        'onfields': True,
+	        'onedufield': True
+    	}
+		return render(request, 'fields_edu.html', context)
+
+	return redirect('/403')
+
+@require_POST
+def edufielddelete(request):
+
+	if request.method == 'POST':
+		
+		edu_id = request.POST['id']
+		edu_object = education.objects.get(pk=edu_id)
+
+		if request.user.is_authenticated:
+
+			username = request.user.username
+			user = Profile.objects.get(username=username)
+
+			if edu_object.user == user:
+
+				edu_object.delete()
+				messages.info(request,"Field deleted Successfully!")
+				return redirect("/editprofile/education")
+
+
+	return redirect('/403')
+
+@require_POST
+def edufieldsubmit(request):
+
+	context={}
+	print("here1")
+	if request.method == 'POST':
+		print("here2")
+		edu_id = request.POST['Id']
+		edu_object = education.objects.get(pk=edu_id)
+
+		if request.user.is_authenticated:
+			print("here3")
+			username = request.user.username
+			user = Profile.objects.get(username=username)
+
+			if edu_object.user == user:
+
+				print("here4")
+				MyForm=EduForm(request.POST)
+
+				if MyForm.is_valid():
+					print("here5")
+					inst = MyForm.cleaned_data['instname']
+					sy=MyForm.cleaned_data['syear']
+					ey=MyForm.cleaned_data['eyear']
+					deg=MyForm.cleaned_data['deg']
+					scr=MyForm.cleaned_data['score']
+					education.objects.filter(pk=edu_id).update(insti_name=inst,s_year=sy,e_year=ey,degree=deg,score=scr)
+					messages.info(request,"Fields updated Successfully!!")		
+
+	else:
+		pass
+
+	return redirect("/editprofile/education")
+
 def denied_acc(request):
 
 	return render(request,'403.html',{})
@@ -120,7 +249,7 @@ def register_page(request):
 
 	if request.user.is_authenticated:
 		return redirect('/dashboard')
-		
+
 	return render(request,'register.html',{})
 
 def edu_page(request):
@@ -321,11 +450,12 @@ def add_edu(request):
 
 			obj=education(user=usr,insti_name=inst,s_year=sy,e_year=ey,degree=deg,score=scr)
 			obj.save()
+			messages.info(request,"Field Added Successfully!!")
 
 	else:
 		MyRegForm=EduForm()
 
-	return redirect('/dashboard')
+	return redirect('/editprofile/education')
 
 def add_exp(request):
 

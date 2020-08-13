@@ -18,6 +18,16 @@ class RegisterForm(forms.Form):
    git = forms.CharField(max_length = 100)
    lang = forms.CharField(max_length = 100)
 
+class UpdateProfileForm(forms.Form):
+
+   fname = forms.CharField(max_length = 100)
+   lname = forms.CharField(max_length = 100)
+   Email = forms.CharField(max_length = 100)
+   mobile = forms.IntegerField()
+   linked = forms.CharField(max_length = 100)
+   git = forms.CharField(max_length = 100)
+   lang = forms.CharField(max_length = 100)
+
 class EduForm(forms.Form):
 
 	instname = forms.CharField(max_length = 100)
@@ -25,6 +35,15 @@ class EduForm(forms.Form):
 	eyear = forms.IntegerField()
 	deg = forms.CharField(max_length = 100)
 	score = forms.CharField(max_length = 100)
+
+class UpdateEduForm(forms.Form):
+
+   Id = forms.IntegerField()
+   instname = forms.CharField(max_length = 100)
+   syear = forms.IntegerField()
+   eyear = forms.IntegerField()
+   deg = forms.CharField(max_length = 100)
+   score = forms.CharField(max_length = 100)
 
 class ExpForm(forms.Form):
 

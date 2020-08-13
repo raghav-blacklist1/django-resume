@@ -48,10 +48,11 @@
 
                             <li {% if ondashboard %} class="active" {% endif %} ><a href="/dashboard"> Dashboard</a></li>
                             <li {% if onpeople %} class="active" {% endif %} ><a href="/people">People</a></li>
-                            <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><span>My Fields</span></a>
+                            <li {% if onfields %} class="active" {% endif %} >
+                                <a href="#" aria-expanded="true"><span>My Fields</span></a>
                                 <ul class="collapse">
-                                    <li class="active"><a href="index.html">Education</a></li>
+                                    <li {% if onmainfield %} class="active" {% endif %} ><a href="{% url 'editmainfields' %}">Main</a></li>
+                                    <li {% if onedufield %} class="active" {% endif %} ><a href="{% url 'editedufields' %}">Education</a></li>
                                     <li><a href="index2.html">Experience</a></li>
                                     <li><a href="index3.html">Skills</a></li>
                                     <li><a href="index3.html">Achievements</a></li>
