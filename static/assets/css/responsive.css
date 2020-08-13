@@ -8,7 +8,7 @@
 
 /*Medium Desktop Device*/
 
-@media screen and (min-width: 1200px) and (max-width: 1440px) {
+@media screen and (min-width: 1100px) and (max-width: 1440px) {
     .col-ml-6 {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 50%;
@@ -113,7 +113,7 @@
 
 /* Normal desktop :992px. */
 
-@media (min-width: 1200px) and (max-width: 1364px) {
+@media (min-width: 1200px) and (max-width: 1264px) {
 
     /* sidebar */
     .sidebar-menu {

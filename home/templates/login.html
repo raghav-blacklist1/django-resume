@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Sign up | Resume+</title>
+    <title>Sign in | Resume+</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/icon/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- modernizr css -->
     <script src="{% static 'assets/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
 </head>
 
 <body>
@@ -34,15 +36,14 @@
     </div>
     <!-- preloader area end -->
     <!-- login area start -->
-
     <div class="login-area">
         <div class="container">
             <div class="login-box ptb--100">
-                <form action="/validate" method="POST">
+                <form action="/requestlogin" method="POST">
                     {% csrf_token %}
                     <div class="login-form-head">
-                        <h4>Sign up</h4>
-                        <p>Hello there, Sign up and Join with Us</p>
+                        <h4>Sign in</h4>
+                        <p>Hello there, Sign in and start managing your Resume</p>
                     </div>
                     <br/>
                     <div class="alert-items" id="id03">
@@ -53,93 +54,32 @@
                         {% endfor %}                        
                     </div>
                     <div class="login-form-body">
-                        <div class="form-gp">
-                            <label for="fname">First Name</label>
-                            <input type="text" name="fname" required>
-                            <i class="ti-user"></i>
-                        </div>
-                        <div class="form-gp">
-                            <label for="lname">Last Name</label>
-                            <input type="text" name="lname" required>
-                            <i class="ti-user"></i>
-                        </div>
                          <div class="form-gp">
                             <label for="username">Username</label>
-                            <input type="text" name="username">
+                            <input type="text" name="username" required>
                             <i class="ti-user"></i>
-                        </div>
-                        <div class="form-gp">
-                            <label for="Email">Email address</label>
-                            <input type="email" name="Email" required>
-                            <i class="ti-email"></i>
                         </div>
                         <div class="form-gp">
                             <label for="password1">Password</label>
-                            <input type="password" name="password1" required>
+                            <input type="password" name="password" required>
                             <i class="ti-lock"></i>
-                        </div>
-                        <div class="form-gp">
-                            <label for="password2">Confirm Password</label>
-                            <input type="password" name="password2" required>
-                            <i class="ti-lock"></i>
-                        </div>
-                        <div class="form-gp">
-                            <label for="mobile">Mobile</label>
-                            <input type="number" name="mobile" required>
-                            <i class="fa fa-mobile"></i>
-                        </div>
-                        <div class="form-gp">
-                            <label for="linked">Linked in ID</label>
-                            <input type="text" name="linked" required>
-                            <i class="fa fa-linkedin"></i>
-                        </div>
-                        <div class="form-gp">
-                            <label for="git">Github ID</label>
-                            <input type="text" name="git" required>
-                            <i class="fa fa-github"></i>
-                        </div>
-                        <div class="form-gp">
-                            <label for="lang">Languages</label>
-                            <input type="text" name="lang" required>
-                            <i class="fa fa-language"></i>
                         </div>
                         <div class="submit-btn-area">
-                            <button id="form_submit" type="submit">Submit <i class="ti-arrow-right"></i></button>
+                            <button id="form_submit" type="submit">Login <i class="ti-arrow-right"></i></button>
                         </div>
                         <div class="form-footer text-center mt-5">
-                            <p class="text-muted">Already have an account? <a href="/">Sign in</a></p>
+                            <p class="text-muted">Don't have an account? <a href="/">Sign up</a></p>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-   {% if messages %}
-    <script type="text/javascript">
-      document.getElementById('id03').style.display='block';
-    </script>
-    {% endif %}
-
-    <script>
-// Get the modal
-        var modal2 = document.getElementById('id03');
-
-// When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-    
-            if (event.target == modal2 ) {
-                modal2.style.display = "none";
-            }
-        }
-    </script>
     <!-- login area end -->
 
     <!-- jquery latest version -->
-   <script src="{% static 'assets/js/vendor/jquery-2.2.4.min.js' %}"></script>
     <!-- bootstrap 4 js -->
     <script src="{% static 'assets/js/popper.min.js' %}"></script>
-    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'assets/js/metisMenu.min.js' %}"></script>
     <script src="{% static 'assets/js/jquery.slimscroll.min.js' %}"></script>

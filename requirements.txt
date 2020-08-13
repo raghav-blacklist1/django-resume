@@ -18,7 +18,6 @@ lazr.restfulclient==0.14.2
 lazr.uri==1.0.3
 Mako==1.0.7
 MarkupSafe==1.1.0
-mysqlclient==1.4.4
 netifaces==0.10.4
 oauthlib==3.1.0
 olefile==0.46
@@ -28,7 +27,6 @@ Pillow==6.2.0
 protobuf==3.6.1
 pycairo==1.16.2
 pycrypto==2.6.1
-pycups==1.9.73
 PyJWT==1.7.0
 pymacaroons==0.13.0
 PyMySQL==0.9.3
@@ -48,5 +46,4 @@ SecretStorage==2.3.1
 simplejson==3.16.0
 six==1.12.0
 stripe==1.59.0
-systemd-python==234
 urllib3==1.24.1

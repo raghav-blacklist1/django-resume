@@ -12,89 +12,97 @@ from django.contrib.auth import authenticate, login,logout
 from home.forms import *
 from django.contrib import messages
 import pdfkit
-import pymysql														#pymysql is used fo sql queries in this python scrript
 
 def HomePage(request):
 
 	context={'is_authenticated':False}
-	if request.user.is_authenticated:						#homepage is the normal page that will be shown to evryone firstly
+	if request.user.is_authenticated:
 
-		context['is_authenticated']=True
-		context['username']=request.user.username
-		context['firstname']=request.user.first_name							
-		context['lastname']=request.user.last_name
-		#print('Logged in')
+		context = {
+	        'is_authenticated': True,
+	        'username': request.user.username,
+	        'firstname': request.user.first_name,
+	        'lastname': request.user.last_name
+    	}
 	
-	return render(request, 'home.html', context)										#home.html is the homepage view on website
+	return render(request, 'home.html', context)
 
 def login_page(request):
+
+	context={}
+	if request.user.is_authenticated:
+		return redirect('/dashboard')
+
+	return render(request, 'login.html', context)
+
+def login_request(request):
 
 	context={}
 	username = "not logged in"
 
 	if request.method == 'POST':
 		MyLoginForm=LoginForm(request.POST)
-		#print("STEP 0")
 
-		if MyLoginForm.is_valid():										#validation of our form
+		if MyLoginForm.is_valid():
 			username = MyLoginForm.cleaned_data['username']
 			password = MyLoginForm.cleaned_data['password']
 			user = authenticate(request, username=username, password=password)
-			#print("STEP 1")
 			if user is not None:
 				login(request, user)
-				#print("STEP 2")
-				return redirect('/dashboard')	#if we have got valid request for username the person is redirected to dashboard with context dictionary containg user info
+				return redirect('/dashboard')
 
 			else:
-				messages.info(request,"Invalid Username or Password!")				#for showing a popup that invalid request has been made
+				messages.info(request,"Invalid Username or Password!")
 
 
 	else:
 		MyLoginForm=LoginForm()
-		#print("STEP 3")
 
-	#print("STEP 4")
-	return redirect('/')
+	return redirect('/login')
 	
 
 def logout_page(request):
 
     logout(request)
-    return redirect('/')				#if user clicks on logout it django 'logout' function logouts the user and the himepage is shon to him
+    return redirect('/')
 
 def dash(request):
 
 	context={'is_authenticated':False}
-	if request.user.is_authenticated:				#only dahboard is shown to the user who has logged in..otherwise redirected to /403
+	if request.user.is_authenticated:
 
-		context['is_authenticated']=True
-		context['username']=request.user.username
-		context['firstname']=request.user.first_name
-		context['lastname']=request.user.last_name
-		#raise ValueError('A very specific bad thing happened.')
+		context = {
+	        'is_authenticated': True,
+	        'username': request.user.username,
+	        'firstname': request.user.first_name,
+	        'lastname': request.user.last_name,
+	        'ondashboard': True
+    	}
 		return render(request, 'dash.html', context)
 
 	return redirect('/403')
 
-def getkey(item):					#function used to sort the items according to first name of user
+def getkey(item):
 
 	return item.fname.lower()
 
-def getkey1(item):					#to sort acc. to the year in which person completed
+def getkey1(item):
 
 	return item.e_year
 
 def people(request):
 
-	context={'is_authenticated':False}								#the people page is for showuing templates of all the people who are signed in with our website
+	context={'is_authenticated':False}
 	if request.user.is_authenticated:
 
-		context['is_authenticated']=True
-		context['username']=request.user.username
-		context['firstname']=request.user.first_name
-		context['lastname']=request.user.last_name
-		context['ppl']=sorted(Profile.objects.all(), key=getkey)
+		context = {
+	        'is_authenticated': True,
+	        'username': request.user.username,
+	        'firstname': request.user.first_name,
+	        'lastname': request.user.last_name,
+	        'people': sorted(Profile.objects.all(), key=getkey),
+	        'onpeople': True
+    	}
 		return render(request, 'people.html', context)
 
 	return redirect('/403')
@@ -110,6 +118,9 @@ def no_res(request):
 
 def register_page(request):
 
+	if request.user.is_authenticated:
+		return redirect('/dashboard')
+		
 	return render(request,'register.html',{})
 
 def edu_page(request):
@@ -148,12 +159,12 @@ def temp1(request,string):
 	context={}
 	try:
 		usr=Profile.objects.get(username=string)
-		context['obj']=Profile.objects.get(username=string)				#to get main info
+		context['obj']=Profile.objects.get(username=string)
 	except:
 		return redirect('/404')
 	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
 	context['ski']=usr.skills_set.all()
-	context['exp']=sorted(usr.experience_set.all(),key=getkey1,reverse=True)			#to get education ,skill and experience info
+	context['exp']=sorted(usr.experience_set.all(),key=getkey1,reverse=True)
 
 	return render(request,'style1.html',context)
 
@@ -226,12 +237,12 @@ def temp4(request,string):
 
 	try:
 		usr=Profile.objects.get(username=string)
-		context['obj']=Profile.objects.get(username=string)				#to get main info
+		context['obj']=Profile.objects.get(username=string)
 	except:
 		return redirect('/404')
 	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
 	context['ski']=usr.skills_set.all()
-	context['exp']=sorted(usr.experience_set.all(),key=getkey1,reverse=True)			#to get education ,skill and experience info
+	context['exp']=sorted(usr.experience_set.all(),key=getkey1,reverse=True)
 
 	return render(request,'style4.html',context)
 
@@ -246,59 +257,20 @@ def dtemp4(request,string):
 
 	return response
 
-"""									// does the same thing as above, but with raw SQL queries
-
-def temp4(request,string):
-
-	context={}
-	if not request.user.is_authenticated:				# checks if either the user is authenticated or the parameter is a sample
-		if string != "sample":
-			return redirect('/403')
-
-	conn=pymysql.connect(host='127.0.0.1',user='root',password='12345000',db="resume6",charset="utf8mb4",cursorclass=pymysql.cursors.DictCursor)	# connects pymysql to database
-
-	try:
-		cursorObject = conn.cursor()		#init cursor
-		Query1 = "select * from home_profile where username like '%"+string+"%'"
-		cursorObject.execute(Query1)
-		context['obj']=cursorObject.fetchall()[0]	#fetch main details
-	except:
-		return redirect('/404')
-
-	Query2 = "select * from home_education where user_id like '%"+string+"%'"
-	print(Query2)
-	Query3 = "select * from home_experience where user_id like '%"+string+"%'"
-	Query4 = "select * from home_skills where user_id like '%"+string+"%'"
-	cursorObject.execute(Query2)
-	context['edu']=sorted(cursorObject.fetchall(),key=getkey1,reverse=True)
-	#print(context['edu'])
-	cursorObject.execute(Query3)
-	context['exp']=sorted(cursorObject.fetchall(),key=getkey1,reverse=True)
-	cursorObject.execute(Query4)
-	context['ski']=cursorObject.fetchall()		# gets education ,skill and experience details
-	#context['edu']=sorted(education.objects.filter(username=string),key=getkey1,reverse=True)
-	#context['ski']=skills.objects.filter(username=string)
-	#context['exp']=sorted(experience.objects.filter(username=string),key=getkey1,reverse=True)
-
-	return render(request,'style4.html',context)
-
-"""
-
 def register_val(request):
 
 	context={}
 
-	if request.method == 'POST':				# check method of registration
+	if request.method == 'POST':
 		MyRegForm=RegisterForm(request.POST)
-		#print("STEP 0")
 
-		if MyRegForm.is_valid():				# check if form corresponds to valid values of model
+		if MyRegForm.is_valid():
 			username = MyRegForm.cleaned_data['username']
 			password1 = MyRegForm.cleaned_data['password1']
-			password2 = MyRegForm.cleaned_data['password2']		# fetch values from form object
+			password2 = MyRegForm.cleaned_data['password2']
 
 			if(password1 != password2):
-				messages.info(request,"The passwords you entered did not match!")	# password check
+				messages.info(request,"The passwords you entered did not match!")
 				return redirect('/register')
 
 			fn=MyRegForm.cleaned_data['fname']
@@ -310,33 +282,28 @@ def register_val(request):
 			lang=MyRegForm.cleaned_data['lang']
 			tmp=Profile.objects.filter(username=username)
 			
-			if len(tmp) != 0 :									# checks if username already exists 
+			if len(tmp) != 0 :
 
 				messages.info(request,"The username "+username+" has already been used.")
 				return redirect('/register')
 
 			obj=Profile(username=username,fname=fn,lname=ln,email=email,mob=mob,link_in=link,github=git,lang=lang)
-			obj.save()											# create object.
+			obj.save()
 			user = User.objects.create_user(username, email, password1)
 			user.first_name=fn
 			user.last_name=ln
-			user.save()											# create user
+			user.save()
 			context['fname']=fn
 			context['lname']=ln
-			
-			#print("STEP 1")
-
 
 	else:
 		MyLoginForm=LoginForm()
-		#print("STEP 3")
 
-	#print("STEP 4")
 	return render(request,'success.html',context)
 
 def add_edu(request):
 
-	if not request.user.is_authenticated:						#add education field
+	if not request.user.is_authenticated:
 
 		return redirect('/403')
 
@@ -344,7 +311,6 @@ def add_edu(request):
 
 	if request.method == 'POST':
 		MyRegForm=EduForm(request.POST)
-		#print("STEP 0")
 
 		if MyRegForm.is_valid():
 			inst = MyRegForm.cleaned_data['instname']
@@ -361,7 +327,7 @@ def add_edu(request):
 
 	return redirect('/dashboard')
 
-def add_exp(request):										#add experience field
+def add_exp(request):
 
 	if not request.user.is_authenticated:
 
@@ -371,7 +337,6 @@ def add_exp(request):										#add experience field
 
 	if request.method == 'POST':
 		MyRegForm=ExpForm(request.POST)
-		#print("STEP 0")
 
 		if MyRegForm.is_valid():
 			comp = MyRegForm.cleaned_data['comp']
@@ -388,7 +353,7 @@ def add_exp(request):										#add experience field
 
 	return redirect('/dashboard')
 
-def add_skill(request):										# add skills
+def add_skill(request):
 
 	if not request.user.is_authenticated:
 
@@ -398,7 +363,6 @@ def add_skill(request):										# add skills
 
 	if request.method == 'POST':
 		MyRegForm=SkillForm(request.POST)
-		#print("STEP 0")
 
 		if MyRegForm.is_valid():
 			skill = MyRegForm.cleaned_data['skill']
