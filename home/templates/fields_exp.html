@@ -40,7 +40,7 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="validationCustom01">Company Name</label>
-                                <input type="text" class="form-control" placeholder="Company Name" name="comp" value="" required>
+                                <input type="text" class="form-control" placeholder="Company Name" name="company" value="" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="validationCustom01">Job Title</label>
@@ -56,11 +56,11 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="validationCustom04">Start Year</label>
-                                <input type="number" id = "new_syear" class="form-control" placeholder="Start Year" name="syear" value="" required>
+                                <input type="number" id = "new_syear" class="form-control" placeholder="Start Year" name="s_year" value="" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="validationCustom05">End Year</label>
-                                <input type="number" id = "new_eyear" class="form-control" placeholder="End Year" name="eyear" value="" required="">
+                                <input type="number" id = "new_eyear" class="form-control" placeholder="End Year" name="e_year" value="" required="">
                             </div>
                             <div class="col-12 mt-1" id="alert_new">
                                 <div class="alert-items">
@@ -91,7 +91,7 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom01">Company Name</label>
-                            <input type="text" class="form-control" placeholder="Company Name" name = "comp" value="{{ expfield.company }}" required>
+                            <input type="text" class="form-control" placeholder="Company Name" name = "company" value="{{ expfield.company }}" required>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom03">Job Title</label>
@@ -107,11 +107,11 @@
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom04">Start Year</label>
-                            <input type="number" id="syear_{{ expfield.id_cnt}}" class="form-control" placeholder="Start Year" name="syear" value="{{ expfield.s_year }}" required>
+                            <input type="number" id="syear_{{ expfield.id_cnt}}" class="form-control" placeholder="Start Year" name="s_year" value="{{ expfield.s_year }}" required>
                         </div>
                         <div class="col-md- mb-3">
                             <label for="validationCustom05">End Year</label>
-                            <input type="number" id="eyear_{{ expfield.id_cnt}}" class="form-control" placeholder="End Year" name="eyear" value="{{ expfield.e_year }}" required="">
+                            <input type="number" id="eyear_{{ expfield.id_cnt}}" class="form-control" placeholder="End Year" name="e_year" value="{{ expfield.e_year }}" required="">
                         </div>
                         <div class="col-12 mt-1" id="alert_{{ expfield.id_cnt }}">
                             <div class="alert-items">

@@ -19,11 +19,10 @@ def HomePage(request):
 	context={'is_authenticated':False}
 	if request.user.is_authenticated:
 
+		profile = Profile.objects.get(user_auth = request.user)
 		context = {
 	        'is_authenticated': True,
-	        'username': request.user.username,
-	        'firstname': request.user.first_name,
-	        'lastname': request.user.last_name
+	        'profile': profile
     	}
 	
 	return render(request, 'home.html', context)
@@ -60,6 +59,47 @@ def login_request(request):
 		MyLoginForm=LoginForm()
 
 	return redirect('/login')
+
+@require_POST
+def register_val(request):
+
+	context={}
+
+	if request.method == 'POST':
+		MyUserForm=UserForm(request.POST)
+
+		if MyUserForm.is_valid():
+			
+			tmp=User.objects.filter(username=MyUserForm.cleaned_data['username'])
+			
+			if len(tmp) != 0 :
+
+				messages.info(request,"The username "+MyUserForm.cleaned_data['username']+" has already been used.")
+				return redirect('/register')
+
+			MyUserForm.save()
+			user_auth = User.objects.get(username = MyUserForm.cleaned_data['username'])
+			MyProfileForm = ProfileForm(request.POST)
+			
+			if MyProfileForm.is_valid():
+
+				MyProfileForm.save(user_auth)
+				messages.info(request,"You have been registered successfully!!")
+				redirect("/")
+
+			else:
+
+				messages.info(request,"Registration Successful.. Please login to complete your profile")
+				redirect("/")
+
+		else:
+
+			messages.info(request,MyUserForm.errors)
+			redirect("/")
+	else:
+		MyLoginForm=LoginForm()
+
+	return redirect("/")
 	
 
 def logout_page(request):
@@ -72,11 +112,11 @@ def dash(request):
 	context={'is_authenticated':False}
 	if request.user.is_authenticated:
 
+		profile = Profile.objects.get(user_auth = request.user)
+		print(profile)
 		context = {
 	        'is_authenticated': True,
-	        'username': request.user.username,
-	        'firstname': request.user.first_name,
-	        'lastname': request.user.last_name,
+	        'profile': profile,
 	        'ondashboard': True
     	}
 		return render(request, 'dash.html', context)
@@ -85,7 +125,7 @@ def dash(request):
 
 def getkey(item):
 
-	return item.fname.lower()
+	return item.first_name.lower()
 
 def getkey1(item):
 
@@ -96,11 +136,10 @@ def people(request):
 	context={'is_authenticated':False}
 	if request.user.is_authenticated:
 
+		profile = Profile.objects.get(user_auth = request.user)
 		context = {
 	        'is_authenticated': True,
-	        'username': request.user.username,
-	        'firstname': request.user.first_name,
-	        'lastname': request.user.last_name,
+	        'profile': profile,
 	        'people': sorted(Profile.objects.all(), key=getkey),
 	        'onpeople': True
     	}
@@ -113,14 +152,10 @@ def editmainfields(request):
 	context={'is_authenticated':False}
 	if request.user.is_authenticated:
 
-		username = request.user.username
-		user = Profile.objects.get(username=username)
+		profile = Profile.objects.get(user_auth = request.user)
 		context = {
 	        'is_authenticated': True,
-	        'username': request.user.username,
-	        'firstname': request.user.first_name,
-	        'lastname': request.user.last_name,
-	        'user': user,
+	        'profile': profile,
 	        'onfields': True,
 	        'onmainfield': True
     	}
@@ -132,25 +167,14 @@ def editmainfields(request):
 def submitmainfields(request):
 
 	context={}
-	print("here0")
 
 	if request.method == 'POST':
-		print("here1")
-		MyForm=UpdateProfileForm(request.POST)
+		profile = Profile.objects.get(user_auth = request.user)
+		MyForm=ProfileForm(request.POST, instance = profile)
 
 		if MyForm.is_valid():
-			print("here2")
-			username = request.user.username
-
-			fn=MyForm.cleaned_data['fname']
-			ln=MyForm.cleaned_data['lname']
-			print(ln)
-			email=MyForm.cleaned_data['Email']
-			mob=MyForm.cleaned_data['mobile']
-			link=MyForm.cleaned_data['linked']
-			git=MyForm.cleaned_data['git']
-			lang=MyForm.cleaned_data['lang']
-			Profile.objects.filter(pk=username).update(fname = fn, lname = ln, email = email, mob = mob, link_in = link, github = git, lang = lang)
+			
+			MyForm.save(profile.user_auth)
 			messages.info(request,"Fields updated Successfully!!")		
 
 	else:
@@ -158,19 +182,38 @@ def submitmainfields(request):
 
 	return redirect("/editprofile/main")
 
+@require_POST
+def add_edu(request):
+
+	if not request.user.is_authenticated:
+
+		return redirect('/403')
+
+	profile=Profile.objects.get(user_auth=request.user)
+
+	if request.method == 'POST':
+		MyRegForm=EduForm(request.POST)
+
+		if MyRegForm.is_valid():
+
+			MyRegForm.save(profile)
+			messages.info(request,"Field Added Successfully!!")
+
+	else:
+		MyRegForm=EduForm()
+
+	return redirect('/editprofile/education')
+
 def editedufields(request):
 
 	context={'is_authenticated':False}
 	if request.user.is_authenticated:
 
-		username = request.user.username
-		user = Profile.objects.get(username=username)
-		edufields = sorted(user.education_set.all(),key=getkey1,reverse=True)
+		profile = Profile.objects.get(user_auth = request.user)
+		edufields = sorted(profile.education_set.all(),key=getkey1,reverse=True)
 		context = {
 	        'is_authenticated': True,
-	        'username': request.user.username,
-	        'firstname': request.user.first_name,
-	        'lastname': request.user.last_name,
+	        'profile': profile,
 	        'edufields': edufields,
 	        'onfields': True,
 	        'onedufield': True
@@ -189,8 +232,7 @@ def edufielddelete(request):
 
 		if request.user.is_authenticated:
 
-			username = request.user.username
-			user = Profile.objects.get(username=username)
+			user = Profile.objects.get(user_auth=request.user)
 
 			if edu_object.user == user:
 
@@ -210,20 +252,15 @@ def edufieldsubmit(request):
 		edu_object = education.objects.get(pk=edu_id)
 
 		if request.user.is_authenticated:
-			username = request.user.username
-			user = Profile.objects.get(username=username)
+			user = Profile.objects.get(user_auth=request.user)
 
 			if edu_object.user == user:
 
-				MyForm=EduForm(request.POST)
+				MyForm=EduForm(request.POST,instance = edu_object)
 
 				if MyForm.is_valid():
-					inst = MyForm.cleaned_data['instname']
-					sy=MyForm.cleaned_data['syear']
-					ey=MyForm.cleaned_data['eyear']
-					deg=MyForm.cleaned_data['deg']
-					scr=MyForm.cleaned_data['score']
-					education.objects.filter(pk=edu_id).update(insti_name=inst,s_year=sy,e_year=ey,degree=deg,score=scr)
+					
+					MyForm.save(user)
 					messages.info(request,"Fields updated Successfully!!")		
 
 	else:
@@ -231,19 +268,37 @@ def edufieldsubmit(request):
 
 	return redirect("/editprofile/education")
 
+@require_POST
+def add_exp(request):
+
+	if not request.user.is_authenticated:
+
+		return redirect('/403')
+
+	profile=Profile.objects.get(user_auth=request.user)
+
+	if request.method == 'POST':
+		MyRegForm=ExpForm(request.POST)
+
+		if MyRegForm.is_valid():
+			
+			MyRegForm.save(profile)
+
+	else:
+		MyRegForm=ExpForm()
+
+	return redirect('/editprofile/experience')
+
 def editexpfields(request):
 
 	context={'is_authenticated':False}
 	if request.user.is_authenticated:
 
-		username = request.user.username
-		user = Profile.objects.get(username=username)
-		expfields = sorted(user.experience_set.all(),key=getkey1,reverse=True)
+		profile = Profile.objects.get(user_auth = request.user)
+		expfields = sorted(profile.experience_set.all(),key=getkey1,reverse=True)
 		context = {
 	        'is_authenticated': True,
-	        'username': request.user.username,
-	        'firstname': request.user.first_name,
-	        'lastname': request.user.last_name,
+	        'profile': profile,
 	        'expfields': expfields,
 	        'onfields': True,
 	        'onexpfield': True
@@ -257,17 +312,16 @@ def expfielddelete(request):
 
 	if request.method == 'POST':
 		
-		edu_id = request.POST['id']
-		edu_object = experience.objects.get(pk=edu_id)
+		exp_id = request.POST['id']
+		exp_object = experience.objects.get(pk=exp_id)
 
 		if request.user.is_authenticated:
 
-			username = request.user.username
-			user = Profile.objects.get(username=username)
+			user = Profile.objects.get(user_auth = request.user)
 
-			if edu_object.user == user:
+			if exp_object.user == user:
 
-				edu_object.delete()
+				exp_object.delete()
 				messages.info(request,"Field deleted Successfully!")
 				return redirect("/editprofile/education")
 
@@ -283,21 +337,15 @@ def expfieldsubmit(request):
 		exp_object = experience.objects.get(pk=exp_id)
 
 		if request.user.is_authenticated:
-			username = request.user.username
-			user = Profile.objects.get(username=username)
+			user = Profile.objects.get(user_auth=request.user)
 
 			if exp_object.user == user:
 
-				MyForm=ExpForm(request.POST)
+				MyForm=ExpForm(request.POST, instance = exp_object)
 
 				if MyForm.is_valid():
 
-					comp = MyForm.cleaned_data['comp']
-					title=MyForm.cleaned_data['title']
-					sy=MyForm.cleaned_data['syear']
-					ey=MyForm.cleaned_data['eyear']
-					wrk=MyForm.cleaned_data['work']
-					experience.objects.filter(pk=exp_id).update(company=comp,title=title,s_year=sy,e_year=ey,work=wrk)
+					MyForm.save(user)
 					messages.info(request,"Fields updated Successfully!!")		
 
 	else:
@@ -305,19 +353,38 @@ def expfieldsubmit(request):
 
 	return redirect("/editprofile/experience")
 
+@require_POST
+def add_skill(request):
+
+	if not request.user.is_authenticated:
+
+		return redirect('/403')
+
+	profile=Profile.objects.get(user_auth=request.user)
+
+	if request.method == 'POST':
+		MyRegForm=SkillForm(request.POST)
+
+		if MyRegForm.is_valid():
+			
+			MyRegForm.save(profile)
+
+	else:
+		MyRegForm=SkillForm()
+
+	return redirect('/editprofile/skills')
+
+
 def editskillfields(request):
 
 	context={'is_authenticated':False}
 	if request.user.is_authenticated:
 
-		username = request.user.username
-		user = Profile.objects.get(username=username)
-		skillfields = user.skills_set.all()
+		profile = Profile.objects.get(user_auth = request.user)
+		skillfields = profile.skills_set.all()
 		context = {
 	        'is_authenticated': True,
-	        'username': request.user.username,
-	        'firstname': request.user.first_name,
-	        'lastname': request.user.last_name,
+	        'profile': profile,
 	        'skillfields': skillfields,
 	        'onfields': True,
 	        'onskillfield': True
@@ -336,8 +403,7 @@ def skillfielddelete(request):
 
 		if request.user.is_authenticated:
 
-			username = request.user.username
-			user = Profile.objects.get(username=username)
+			user = Profile.objects.get(user_auth = request.user)
 
 			if skill_object.user == user:
 
@@ -362,12 +428,11 @@ def skillfieldsubmit(request):
 
 			if skill_object.user == user:
 
-				MyForm=SkillForm(request.POST)
+				MyForm=SkillForm(request.POST, instance = skill_object)
 
 				if MyForm.is_valid():
 
-					skill = MyForm.cleaned_data['skill']
-					skills.objects.filter(pk=skill_id).update(skill=skill)
+					MyForm.save(user)
 					messages.info(request,"Field updated Successfully!!")		
 
 	else:
@@ -524,122 +589,3 @@ def dtemp4(request,string):
 	response['Content-Disposition'] = 'attachment; filename="{0}_4.pdf"'.format(string)
 
 	return response
-
-def register_val(request):
-
-	context={}
-
-	if request.method == 'POST':
-		MyRegForm=RegisterForm(request.POST)
-
-		if MyRegForm.is_valid():
-			username = MyRegForm.cleaned_data['username']
-			password1 = MyRegForm.cleaned_data['password1']
-			password2 = MyRegForm.cleaned_data['password2']
-
-			if(password1 != password2):
-				messages.info(request,"The passwords you entered did not match!")
-				return redirect('/register')
-
-			fn=MyRegForm.cleaned_data['fname']
-			ln=MyRegForm.cleaned_data['lname']
-			email=MyRegForm.cleaned_data['Email']
-			mob=MyRegForm.cleaned_data['mobile']
-			link=MyRegForm.cleaned_data['linked']
-			git=MyRegForm.cleaned_data['git']
-			lang=MyRegForm.cleaned_data['lang']
-			tmp=Profile.objects.filter(username=username)
-			
-			if len(tmp) != 0 :
-
-				messages.info(request,"The username "+username+" has already been used.")
-				return redirect('/register')
-
-			obj=Profile(username=username,fname=fn,lname=ln,email=email,mob=mob,link_in=link,github=git,lang=lang)
-			obj.save()
-			user = User.objects.create_user(username, email, password1)
-			user.first_name=fn
-			user.last_name=ln
-			user.save()
-			context['fname']=fn
-			context['lname']=ln
-
-	else:
-		MyLoginForm=LoginForm()
-
-	return render(request,'success.html',context)
-
-def add_edu(request):
-
-	if not request.user.is_authenticated:
-
-		return redirect('/403')
-
-	usr=Profile.objects.get(username=request.user.username)
-
-	if request.method == 'POST':
-		MyRegForm=EduForm(request.POST)
-
-		if MyRegForm.is_valid():
-			inst = MyRegForm.cleaned_data['instname']
-			sy=MyRegForm.cleaned_data['syear']
-			ey=MyRegForm.cleaned_data['eyear']
-			deg=MyRegForm.cleaned_data['deg']
-			scr=MyRegForm.cleaned_data['score']
-
-			obj=education(user=usr,insti_name=inst,s_year=sy,e_year=ey,degree=deg,score=scr)
-			obj.save()
-			messages.info(request,"Field Added Successfully!!")
-
-	else:
-		MyRegForm=EduForm()
-
-	return redirect('/editprofile/education')
-
-def add_exp(request):
-
-	if not request.user.is_authenticated:
-
-		return redirect('/403')
-
-	usr=Profile.objects.get(username=request.user.username)
-
-	if request.method == 'POST':
-		MyRegForm=ExpForm(request.POST)
-
-		if MyRegForm.is_valid():
-			comp = MyRegForm.cleaned_data['comp']
-			title=MyRegForm.cleaned_data['title']
-			sy=MyRegForm.cleaned_data['syear']
-			ey=MyRegForm.cleaned_data['eyear']
-			wrk=MyRegForm.cleaned_data['work']
-
-			obj=experience(user=usr,company=comp,title=title,s_year=sy,e_year=ey,work=wrk)
-			obj.save()
-
-	else:
-		MyRegForm=ExpForm()
-
-	return redirect('/editprofile/experience')
-
-def add_skill(request):
-
-	if not request.user.is_authenticated:
-
-		return redirect('/403')
-
-	usr=Profile.objects.get(username=request.user.username)
-
-	if request.method == 'POST':
-		MyRegForm=SkillForm(request.POST)
-
-		if MyRegForm.is_valid():
-			skill = MyRegForm.cleaned_data['skill']
-
-			obj=skills(user=usr,skill=skill)
-			obj.save()
-
-	else:
-		MyRegForm=SkillForm()
-
-	return redirect('/dashboard')

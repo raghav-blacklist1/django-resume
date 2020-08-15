@@ -7,10 +7,10 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
 
-	username = models.CharField(max_length=150,default="none",primary_key=True)
-	fname = models.CharField(max_length=150,default="")
-	lname = models.CharField(max_length=150,default="")
-	email = models.CharField(max_length=150,default="")
+	user_auth = models.OneToOneField(User, on_delete=models.CASCADE, primary_key = True)
+	first_name = models.CharField(max_length = 100,default="")
+	last_name = models.CharField(max_length = 100,default="")
+	email = models.CharField(max_length = 100,default="")
 	mob = models.CharField(max_length=20,default="")
 	link_in = models.CharField(max_length=150,default="")
 	github = models.CharField(max_length=150,default="")
@@ -40,5 +40,4 @@ class skills(models.Model):
 
 	user = models.ForeignKey(Profile, on_delete=models.CASCADE)
 	id_cnt = models.AutoField(primary_key=True)
-	skill = models.CharField(max_length=150,default="")	
-	
+	skill = models.CharField(max_length=150,default="")

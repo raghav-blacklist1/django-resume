@@ -40,13 +40,13 @@
                         <div class="form-row">
                             <div class="col-md-10 mb-3">
                                 <label for="validationCustom01">School or Institute Name</label>
-                                <input type="text" class="form-control" placeholder="Institute Name" name="instname" value="" required>
+                                <input type="text" class="form-control" placeholder="Institute Name" name="insti_name" value="" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="validationCustom03">Degree</label>
-                                <input type="text" class="form-control" placeholder="Degree Name" name="deg" value="" required>
+                                <input type="text" class="form-control" placeholder="Degree Name" name="degree" value="" required>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <label for="validationCustom04">Score</label>
@@ -54,11 +54,11 @@
                             </div>
                             <div class="col-md-2 mb-3">
                                 <label for="validationCustom04">Start Year</label>
-                                <input type="number" id = "new_syear" class="form-control" placeholder="Start Year" name="syear" value="" required>
+                                <input type="number" id = "new_syear" class="form-control" placeholder="Start Year" name="s_year" value="" required>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <label for="validationCustom05">End Year</label>
-                                <input type="number" id = "new_eyear" class="form-control" placeholder="End Year" name="eyear" value="" required="">
+                                <input type="number" id = "new_eyear" class="form-control" placeholder="End Year" name="e_year" value="" required="">
                             </div>
                             <div class="col-12 mt-1" id="alert_new">
                                 <div class="alert-items">
@@ -89,13 +89,13 @@
                     <div class="form-row">
                         <div class="col-md-10 mb-3">
                             <label for="validationCustom01">School or Institute Name</label>
-                            <input type="text" class="form-control" placeholder="Institute Name" name = "instname" value="{{ edufield.insti_name }}" required>
+                            <input type="text" class="form-control" placeholder="Institute Name" name = "insti_name" value="{{ edufield.insti_name }}" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-md-6 mb-3">
                             <label for="validationCustom03">Degree</label>
-                            <input type="text" class="form-control" placeholder="Degree Name" name = "deg"value="{{ edufield.degree }}"required>
+                            <input type="text" class="form-control" placeholder="Degree Name" name = "degree" value="{{ edufield.degree }}"required>
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="validationCustom04">Score</label>
@@ -103,11 +103,11 @@
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="validationCustom04">Start Year</label>
-                            <input type="number" id="syear_{{ edufield.id_cnt}}" class="form-control" placeholder="Start Year" name="syear" value="{{ edufield.s_year }}" required>
+                            <input type="number" id="syear_{{ edufield.id_cnt}}" class="form-control" placeholder="Start Year" name="s_year" value="{{ edufield.s_year }}" required>
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="validationCustom05">End Year</label>
-                            <input type="number" id="eyear_{{ edufield.id_cnt}}" class="form-control" placeholder="End Year" name="eyear" value="{{ edufield.e_year }}" required="">
+                            <input type="number" id="eyear_{{ edufield.id_cnt}}" class="form-control" placeholder="End Year" name="e_year" value="{{ edufield.e_year }}" required="">
                         </div>
                         <div class="col-12 mt-1" id="alert_{{ edufield.id_cnt }}">
                             <div class="alert-items">

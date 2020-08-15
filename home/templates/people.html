@@ -21,15 +21,15 @@
 <div class="col-lg-12 mt-5">
     <div class="card">
         <div class="card-body">
-            {% if obj.username == username %}
-            <h4 class="header-title">[ ME ] {{ obj.fname }} {{ obj.lname }} <span style="text-transform: none; font-style: italic;">(@{{ obj.username }})</span></h4>
+            {% if obj.user_auth.username == profile.user_auth.username %}
+            <h4 class="header-title">[ ME ] {{ obj.first_name }} {{ obj.last_name }} <span style="text-transform: none; font-style: italic;">(@{{ obj.user_auth.username }})</span></h4>
             {% else %}
-            <h4 class="header-title">{{ obj.fname }} {{ obj.lname }} <span style="text-transform: none; font-style: italic;">(@{{ obj.username }})</span></h4>
+            <h4 class="header-title">{{ obj.first_name }} {{ obj.last_name }} <span style="text-transform: none; font-style: italic;">(@{{ obj.user.username }})</span></h4>
             {% endif %}
-             <a href="/dtemp1/{{ obj.username }}"><button type="button" class="btn btn-primary mb-3">Template 1</button></a>
-             <a href="/dtemp2/{{ obj.username }}"><button type="button" class="btn btn-success mb-3">Template 2</button></a>
-             <a href="/dtemp3/{{ obj.username }}"><button type="button" class="btn btn-danger mb-3">Template 3</button></a>
-             <a href="/dtemp4/{{ obj.username }}"><button type="button" class="btn btn-warning mb-3">Template 4</button></a>
+             <a href="/dtemp1/{{ obj.user_auth.username }}"><button type="button" class="btn btn-primary mb-3">Template 1</button></a>
+             <a href="/dtemp2/{{ obj.user_auth.username }}"><button type="button" class="btn btn-success mb-3">Template 2</button></a>
+             <a href="/dtemp3/{{ obj.user_auth.username }}"><button type="button" class="btn btn-danger mb-3">Template 3</button></a>
+             <a href="/dtemp4/{{ obj.user_auth.username }}"><button type="button" class="btn btn-warning mb-3">Template 4</button></a>
             
         </div>
     </div>
