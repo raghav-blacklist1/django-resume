@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ obj.fname }}'s Resume</title>
+    <title>{{ obj.first_name }}'s Resume</title>
     <meta name="description" content=""/>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -26,7 +26,7 @@
       <div class="row">
         <div class="col-lg-6 col-md-12">
           <div class="card-body">
-            <div class="h2 mt-0 title">{{ obj.fname }} {{ obj.lname }}</div>
+            <div class="h2 mt-0 title">{{ obj.first_name }} {{ obj.last_name }}</div>
             
             <div class="row mt-3">
               <div class="col-sm-4"><strong class="text-uppercase">Phone:</strong></div>
@@ -130,7 +130,7 @@
 
     </div>
     <footer class="footer">
-      <div class="h4 title text-center">{{ obj.fname }} {{ obj.lname }}</div>
+      <div class="h4 title text-center">{{ obj.first_name }} {{ obj.last_name }}</div>
       <div class="text-center text-muted">
         <p>&copy; Resume+. All rights reserved.<br>Design - <a class="credit">Creative CV</a></p>
       </div>
