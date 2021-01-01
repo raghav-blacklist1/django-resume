@@ -492,12 +492,13 @@ def temp1(request,string):
 	context={}
 	try:
 		usr=User.objects.get(username=string)
-		context['obj']=Profile.objects.get(user_auth=usr)
+		prof = Profile.objects.get(user_auth=usr)
+		context['obj']=prof
 	except:
 		return redirect('/404')
-	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
-	context['ski']=usr.skills_set.all()
-	context['exp']=sorted(usr.experience_set.all(),key=getkey1,reverse=True)
+	context['edu']=sorted(prof.education_set.all(),key=getkey1,reverse=True)
+	context['ski']=prof.skills_set.all()
+	context['exp']=sorted(prof.experience_set.all(),key=getkey1,reverse=True)
 
 	return render(request,'style1.html',context)
 
@@ -518,12 +519,13 @@ def temp2(request,string):
 
 	try:
 		usr=User.objects.get(username=string)
-		context['obj']=Profile.objects.get(user_auth=usr)
+		prof = Profile.objects.get(user_auth=usr)
+		context['obj']=prof
 	except:
 		return redirect('/404')
-	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
-	context['ski']=usr.skills_set.all()
-	context['exp']=sorted(usr.experience_set.all(),key=getkey1,reverse=True)
+	context['edu']=sorted(prof.education_set.all(),key=getkey1,reverse=True)
+	context['ski']=prof.skills_set.all()
+	context['exp']=sorted(prof.experience_set.all(),key=getkey1,reverse=True)
 
 	return render(request,'style2.html',context)
 
@@ -544,12 +546,13 @@ def temp3(request,string):
 
 	try:
 		usr=User.objects.get(username=string)
-		context['obj']=Profile.objects.get(user_auth=usr)
+		prof = Profile.objects.get(user_auth=usr)
+		context['obj']=prof
 	except:
 		return redirect('/404')
-	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
-	context['ski']=usr.skills_set.all()
-	context['exp']=sorted(usr.experience_set.all(),key=getkey1,reverse=True)
+	context['edu']=sorted(prof.education_set.all(),key=getkey1,reverse=True)
+	context['ski']=prof.skills_set.all()
+	context['exp']=sorted(prof.experience_set.all(),key=getkey1,reverse=True)
 
 	return render(request,'style3.html',context)
 
@@ -570,12 +573,13 @@ def temp4(request,string):
 
 	try:
 		usr=User.objects.get(username=string)
-		context['obj']=Profile.objects.get(user_auth=usr)
+		prof = Profile.objects.get(user_auth=usr)
+		context['obj']=prof
 	except:
 		return redirect('/404')
-	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
-	context['ski']=usr.skills_set.all()
-	context['exp']=sorted(usr.experience_set.all(),key=getkey1,reverse=True)
+	context['edu']=sorted(prof.education_set.all(),key=getkey1,reverse=True)
+	context['ski']=prof.skills_set.all()
+	context['exp']=sorted(prof.experience_set.all(),key=getkey1,reverse=True)
 
 	return render(request,'style4.html',context)
 
