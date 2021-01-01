@@ -491,8 +491,8 @@ def temp1(request,string):
 
 	context={}
 	try:
-		usr=Profile.objects.get(username=string)
-		context['obj']=Profile.objects.get(username=string)
+		usr=User.objects.get(username=string)
+		context['obj']=Profile.objects.get(user_auth=usr)
 	except:
 		return redirect('/404')
 	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
@@ -517,8 +517,8 @@ def temp2(request,string):
 	context={}
 
 	try:
-		usr=Profile.objects.get(username=string)
-		context['obj']=Profile.objects.get(username=string)
+		usr=User.objects.get(username=string)
+		context['obj']=Profile.objects.get(user_auth=usr)
 	except:
 		return redirect('/404')
 	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
@@ -543,8 +543,8 @@ def temp3(request,string):
 	context={}
 
 	try:
-		usr=Profile.objects.get(username=string)
-		context['obj']=Profile.objects.get(username=string)
+		usr=User.objects.get(username=string)
+		context['obj']=Profile.objects.get(user_auth=usr)
 	except:
 		return redirect('/404')
 	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
@@ -569,8 +569,8 @@ def temp4(request,string):
 	context={}
 
 	try:
-		usr=Profile.objects.get(username=string)
-		context['obj']=Profile.objects.get(username=string)
+		usr=User.objects.get(username=string)
+		context['obj']=Profile.objects.get(user_auth=usr)
 	except:
 		return redirect('/404')
 	context['edu']=sorted(usr.education_set.all(),key=getkey1,reverse=True)
