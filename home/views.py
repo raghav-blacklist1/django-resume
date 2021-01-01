@@ -491,6 +491,8 @@ def temp1(request,string):
 
 	context={}
 	try:
+		if string=='sample':
+			string='parv1010'
 		usr=User.objects.get(username=string)
 		prof = Profile.objects.get(user_auth=usr)
 		context['obj']=prof
