@@ -60,6 +60,12 @@ def login_request(request):
 
 	return redirect('/login')
 
+def people_request(request):
+
+	context={}
+	if request.method == 'POST':
+		return render(request, 'people_list.html', context)
+
 @require_POST
 def register_val(request):
 
@@ -601,3 +607,9 @@ def dtemp4(request,string):
 	response['Content-Disposition'] = 'attachment; filename="{0}_4.pdf"'.format(string)
 
 	return response
+
+def forget_password(request):
+
+	context={}
+
+	return render(request, 'forget_password.html', context)
