@@ -28,7 +28,7 @@
 
 <div id="peoples" class="row">
 {% for obj in people %}
-<div class="col-lg-12 mt-5">
+<div class="col-lg-12 mt-5 scard">
     <div class="card">
         <div class="card-body">
             {% if obj.user_auth.username == profile.user_auth.username %}
@@ -50,13 +50,12 @@
         var input, filter, ul, li, a, i, txtValue;
         input = document.getElementById("searchInput");
         filter = input.value.toUpperCase();
-        ul = document.getElementById("peoples");
-        card=ul.getElementsByClassName("card");
-       
+        card=document.getElementsByClassName("scard");
+
         for (i = 0; i < card.length; i++) {
-            // a = li[i].getElementsByTagName("a")[0];
-            li = card[i].getElementsByTagName("h4");
-            txtValue = li[i].textContent;
+            li = card[i].getElementsByClassName("header-title");
+            txtValue = li[0].textContent;
+            console.log(txtValue);
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
                 card[i].style.display = "";
             } else {
