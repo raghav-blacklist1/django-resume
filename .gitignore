@@ -3,6 +3,7 @@ db.sqlite3
 
 #virtual environment
 myvenv
+env
 
 #all cached files
 **/*.pyc
