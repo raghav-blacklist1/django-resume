@@ -16,7 +16,7 @@ keyrings.alt==3.1.1
 launchpadlib==1.10.6
 lazr.restfulclient==0.14.2
 lazr.uri==1.0.3
-Mako==1.0.7
+Mako==1.2.2
 MarkupSafe==1.1.0
 netifaces==0.10.4
 oauthlib==3.1.0
